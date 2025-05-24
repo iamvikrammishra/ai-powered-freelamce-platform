@@ -1,23 +1,17 @@
 "use client"
 
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
-
-import { DropdownMenuContent } from "@/components/ui/dropdown-menu"
-
-import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-
-import { DropdownMenu } from "@/components/ui/dropdown-menu"
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Download, RefreshCw } from "lucide-react"
 import Image from "next/image"
-import { toast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast"
 
 export function PlatformAnalytics() {
+  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [timeRange, setTimeRange] = useState("30days")
   
@@ -104,14 +98,53 @@ export function PlatformAnalytics() {
             <CardContent>
               <div className="aspect-[2/1] relative">
                 <Image
-                  src="/placeholder.svg?height=400&width=800&query=dashboard with multiple charts showing platform metrics"
-                  alt="Platform Overview"
+                  src="/placeholder.svg?height=400&width=800&query=line chart showing platform growth"
+                  alt="Platform Growth Chart"
                   fill
                   className="object-contain"
                 />
               </div>
             </CardContent>
           </Card>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">12,345</div>
+                <p className="text-xs text-muted-foreground">+12% from last month</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">1,234</div>
+                <p className="text-xs text-muted-foreground">+5% from last month</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">$234,567</div>
+                <p className="text-xs text-muted-foreground">+15% from last month</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Average Rating</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">4.8/5.0</div>
+                <p className="text-xs text-muted-foreground">+0.2 from last month</p>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
         
         <TabsContent value="users" className="mt-6 space-y-6">
@@ -125,7 +158,7 @@ export function PlatformAnalytics() {
             <CardContent>
               <div className="aspect-[2/1] relative">
                 <Image
-                  src="/placeholder.svg?height=400&width=800&query=line chart showing user growth over time"
+                  src="/placeholder.svg?height=400&width=800&query=line chart showing user growth"
                   alt="User Growth Chart"
                   fill
                   className="object-contain"
@@ -139,7 +172,7 @@ export function PlatformAnalytics() {
               <CardHeader>
                 <CardTitle>User Demographics</CardTitle>
                 <CardDescription>
-                  Breakdown of user demographics
+                  Breakdown by region and user type
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -158,13 +191,13 @@ export function PlatformAnalytics() {
               <CardHeader>
                 <CardTitle>User Retention</CardTitle>
                 <CardDescription>
-                  User retention rates over time
+                  User retention by cohort
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="aspect-square relative">
                   <Image
-                    src="/placeholder.svg?height=400&width=400&query=cohort chart showing user retention"
+                    src="/placeholder.svg?height=400&width=400&query=heat map showing user retention"
                     alt="User Retention Chart"
                     fill
                     className="object-contain"
@@ -180,13 +213,13 @@ export function PlatformAnalytics() {
             <CardHeader>
               <CardTitle>Project Metrics</CardTitle>
               <CardDescription>
-                Project creation and completion rates
+                Project creation and completion rate
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="aspect-[2/1] relative">
                 <Image
-                  src="/placeholder.svg?height=400&width=800&query=line chart showing project creation and completion rates"
+                  src="/placeholder.svg?height=400&width=800&query=line chart showing project metrics"
                   alt="Project Metrics Chart"
                   fill
                   className="object-contain"
@@ -200,7 +233,7 @@ export function PlatformAnalytics() {
               <CardHeader>
                 <CardTitle>Project Categories</CardTitle>
                 <CardDescription>
-                  Distribution of projects by category
+                  Distribution by project category
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -219,7 +252,7 @@ export function PlatformAnalytics() {
               <CardHeader>
                 <CardTitle>Project Success Rates</CardTitle>
                 <CardDescription>
-                  Success rates by project category
+                  Completion rates by project category
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -331,5 +364,33 @@ export function PlatformAnalytics() {
                     src="/placeholder.svg?height=400&width=400&query=bar chart showing fastest growing skills"
                     alt="Skill Growth Chart"
                     fill
-                    className="object-contain"\
+                    className="object-contain"
                   />
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Skill Supply-Demand Gap</CardTitle>
+                <CardDescription>
+                  Skills with highest supply-demand disparity
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="aspect-square relative">
+                  <Image
+                    src="/placeholder.svg?height=400&width=400&query=bar chart showing skill supply-demand gap"
+                    alt="Skill Gap Chart"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  )
+}
