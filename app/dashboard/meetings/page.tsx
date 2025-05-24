@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { DashboardHeader } from "@/components/features/dashboard/dashboard-header"
 import { DashboardShell } from "@/components/features/dashboard/dashboard-shell"
-import { MeetingTabs } from "@/components/meetings/meeting-tabs"
+import { MeetingTabs } from "@/components/features/meetings/meeting-tabs"
 
 export const metadata: Metadata = {
   title: "Meetings | GigIndia",

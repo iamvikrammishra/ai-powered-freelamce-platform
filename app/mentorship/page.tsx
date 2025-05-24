@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { DashboardHeader } from "@/components/features/dashboard/dashboard-header"
 import { DashboardShell } from "@/components/features/dashboard/dashboard-shell"
-import { MentorshipTabs } from "@/components/mentorship/mentorship-tabs"
+import { MentorshipTabs } from "@/components/features/mentorship/mentorship-tabs"
 
 export const metadata: Metadata = {
   title: "Mentorship | GigIndia",

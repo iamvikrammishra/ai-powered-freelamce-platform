@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import { PricingPlans } from "@/components/pricing/pricing-plans"
-import { PricingFAQ } from "@/components/pricing/pricing-faq"
-import { PricingComparison } from "@/components/pricing/pricing-comparison"
-import { PricingHeader } from "@/components/pricing/pricing-header"
-import { PricingTestimonials } from "@/components/pricing/pricing-testimonials"
-import { PricingCTA } from "@/components/pricing/pricing-cta"
+import { PricingPlans } from "@/components/features/pricing/pricing-plans"
+import { PricingFAQ } from "@/components/features/pricing/pricing-faq"
+import { PricingComparison } from "@/components/features/pricing/pricing-comparison"
+import { PricingHeader } from "@/components/features/pricing/pricing-header"
+import { PricingTestimonials } from "@/components/features/pricing/pricing-testimonials"
+import { PricingCTA } from "@/components/features/pricing/pricing-cta"
 
 export const metadata: Metadata = {
   title: "Pricing - GigIndia",

@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { DashboardHeader } from "@/components/features/dashboard/dashboard-header"
 import { DashboardShell } from "@/components/features/dashboard/dashboard-shell"
-import { AdminDashboard } from "@/components/admin/admin-dashboard"
+import { AdminDashboard } from "@/components/features/admin/admin-dashboard"
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | GigIndia",
