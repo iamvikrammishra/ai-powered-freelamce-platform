@@ -1,0 +1,334 @@
+"use client"
+
+import { useState } from "react"
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter 
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
+import { 
+  Check, ArrowRight, BriefcaseIcon, SearchIcon, UserIcon, 
+  Star, Settings, Bell, Mail, Award, FileText, Zap, 
+  DollarSign, PieChart, BookOpen, ChevronRight, UsersIcon
+} from "lucide-react"
+
+type WelcomeModalProps = {
+  isOpen: boolean
+  onClose: () => void
+  userType?: 'freelancer' | 'employer'
+  userName?: string
+}
+
+export function WelcomeModal({ isOpen, onClose, userType = 'freelancer', userName = '' }: WelcomeModalProps) {
+  const router = useRouter()
+  const [currentStep, setCurrentStep] = useState(0)
+  const [showTutorial, setShowTutorial] = useState(false)
+  
+  // Industry-standard steps for freelancers
+  const freelancerSteps = [
+    {
+      title: "Welcome to GigIndia!",
+      description: "Your journey to freelance success starts here. Let's get you set up for success.",
+      icon: <Star className="h-16 w-16 text-primary" />,
+      action: () => {}
+    },
+    {
+      title: "Complete Your Profile",
+      description: "Stand out to clients by adding your skills, experience, and a professional photo.",
+      icon: <UserIcon className="h-16 w-16 text-primary" />,
+      action: () => router.push("/dashboard/profile"),
+      ctaText: "Complete Profile"
+    },
+    {
+      title: "Find Great Opportunities",
+      description: "Browse thousands of jobs that match your skills and interests.",
+      icon: <SearchIcon className="h-16 w-16 text-primary" />,
+      action: () => router.push("/dashboard/find-jobs"),
+      ctaText: "Browse Jobs"
+    },
+    {
+      title: "Set Your Preferences",
+      description: "Configure your job alerts, payment methods, and notification settings.",
+      icon: <Settings className="h-16 w-16 text-primary" />,
+      action: () => router.push("/dashboard/settings"),
+      ctaText: "Settings"
+    }
+  ]
+
+  // Industry-standard steps for employers
+  const employerSteps = [
+    {
+      title: "Welcome to GigIndia!",
+      description: "We're excited to help you find the perfect talent for your projects.",
+      icon: <Star className="h-16 w-16 text-primary" />,
+      action: () => {}
+    },
+    {
+      title: "Post Your First Job",
+      description: "Create a detailed job posting to attract the best freelancers for your project.",
+      icon: <BriefcaseIcon className="h-16 w-16 text-primary" />,
+      action: () => router.push("/dashboard/post-job"),
+      ctaText: "Post a Job"
+    },
+    {
+      title: "Browse Top Talent",
+      description: "Explore our pool of skilled freelancers and filter by skills, ratings, and more.",
+      icon: <SearchIcon className="h-16 w-16 text-primary" />,
+      action: () => router.push("/dashboard/freelancers"),
+      ctaText: "Find Talent"
+    },
+    {
+      title: "Set Up Your Company",
+      description: "Add your company details, payment methods, and team members.",
+      icon: <Settings className="h-16 w-16 text-primary" />,
+      action: () => router.push("/dashboard/company-settings"),
+      ctaText: "Complete Setup"
+    }
+  ]
+  
+  // Dashboard highlights to show in the tutorial
+  const dashboardFeatures = userType === 'freelancer' ? [
+    {
+      title: "Job Recommendations",
+      description: "Personalized job matches based on your skills and preferences",
+      icon: <Zap className="h-10 w-10 text-amber-500" />
+    },
+    {
+      title: "Inbox",
+      description: "Messages from clients and job notifications",
+      icon: <Mail className="h-10 w-10 text-blue-500" />
+    },
+    {
+      title: "Earnings",
+      description: "Track your income, invoices, and payment history",
+      icon: <DollarSign className="h-10 w-10 text-green-500" />
+    },
+    {
+      title: "Skill Tests",
+      description: "Prove your expertise and stand out to potential clients",
+      icon: <Award className="h-10 w-10 text-purple-500" />
+    }
+  ] : [
+    {
+      title: "Talent Pool",
+      description: "Browse and save freelancers for your projects",
+      icon: <UsersIcon className="h-10 w-10 text-blue-500" />
+    },
+    {
+      title: "Active Projects",
+      description: "Manage your ongoing projects and milestones",
+      icon: <BriefcaseIcon className="h-10 w-10 text-purple-500" />
+    },
+    {
+      title: "Financial Overview",
+      description: "Track payments, invoices, and project budgets",
+      icon: <PieChart className="h-10 w-10 text-amber-500" />
+    },
+    {
+      title: "Resources",
+      description: "Guides and best practices for working with freelancers",
+      icon: <BookOpen className="h-10 w-10 text-green-500" />
+    }
+  ]
+  
+  const steps = userType === 'freelancer' ? freelancerSteps : employerSteps
+
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      // Move to the next step
+      setCurrentStep(currentStep + 1)
+    } else if (!showTutorial) {
+      // First close the modal
+      onClose()
+      // Direct to the profile section based on user type (industry standard approach)
+      const profilePath = userType === 'freelancer' 
+        ? "/dashboard/profile" 
+        : "/dashboard/company-profile"
+      router.replace(profilePath)
+    }
+  }
+
+  const handleActionButton = () => {
+    // Execute the current step's action (usually navigation)
+    if (steps[currentStep].action && typeof steps[currentStep].action === 'function') {
+      // First close the modal
+      onClose()
+      // Direct navigation without setTimeout to avoid issues
+      steps[currentStep].action()
+    }
+  }
+
+  const handleSkip = () => {
+    // First close the modal
+    onClose()
+    // Direct to the profile section based on user type (industry standard approach)
+    const profilePath = userType === 'freelancer' 
+      ? "/dashboard/profile" 
+      : "/dashboard/company-profile"
+    router.replace(profilePath)
+  }
+
+  // Calculate progress percentage
+  const progressPercentage = ((currentStep + 1) / steps.length) * 100
+
+  return (
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className={`${showTutorial ? 'sm:max-w-3xl' : 'sm:max-w-lg'} overflow-hidden`}>
+        {!showTutorial ? (
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
+                Welcome{userName ? `, ${userName}` : ''}! 👋
+              </DialogTitle>
+              <DialogDescription className="text-lg pt-2">
+                Let's get you started with GigIndia.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={currentStep}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="my-8 flex flex-col md:flex-row items-center text-center gap-6"
+              >
+                <div className="flex-1 flex flex-col items-center">
+                  <div className="bg-primary/10 p-6 rounded-full mb-6">
+                    {steps[currentStep].icon}
+                  </div>
+                  
+                  <h3 className="text-2xl font-semibold mb-3">{steps[currentStep].title}</h3>
+                  <p className="text-muted-foreground text-lg max-w-md">{steps[currentStep].description}</p>
+                  
+                  {/* Action button for specific steps */}
+                  {steps[currentStep].ctaText && currentStep > 0 && (
+                    <Button 
+                      variant="outline" 
+                      onClick={handleActionButton}
+                      className="mt-6 group"
+                    >
+                      {steps[currentStep].ctaText}
+                      <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  )}
+                </div>
+                
+                {/* Add relevant image based on the step */}
+                <div className="flex-1 hidden md:block">
+                  <div className="relative w-64 h-64 mx-auto rounded-lg overflow-hidden shadow-lg border border-purple-100 dark:border-purple-900">
+                    <Image 
+                      src={userType === 'freelancer' ? 
+                        (currentStep === 0 ? '/freelancer-journey.png' : 
+                         currentStep === 1 ? '/professional-indian-headshot.png' : 
+                         currentStep === 2 ? '/modern-ecommerce-website.png' : 
+                         '/blue-gradient-badges-certificates.png') : 
+                        (currentStep === 0 ? '/employer-journey.png' : 
+                         currentStep === 1 ? '/task-management-app-ui.png' : 
+                         currentStep === 2 ? '/professional-freelancers.png' : 
+                         '/project-dashboard-cyan.png')
+                      } 
+                      alt={steps[currentStep].title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+            
+            {/* Progress indicator */}
+            <div className="mb-6">
+              <div className="flex justify-between text-sm mb-2">
+                <span>Getting Started</span>
+                <span>{currentStep + 1} of {steps.length}</span>
+              </div>
+              <Progress value={progressPercentage} className="h-2" />
+            </div>
+            
+            <DialogFooter className="sm:justify-between flex flex-row">
+              <Button variant="ghost" onClick={handleSkip}>
+                Skip for now
+              </Button>
+              <Button 
+                onClick={handleNext}
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+              >
+                {currentStep < steps.length - 1 ? 'Next' : 'Explore Dashboard'} 
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </DialogFooter>
+          </>
+        ) : (
+          /* Dashboard Tutorial View */
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold">
+                Explore Your Dashboard
+              </DialogTitle>
+              <DialogDescription className="text-lg pt-2">
+                Here's what you can do on your personalized dashboard.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+              {dashboardFeatures.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:shadow-md transition-shadow"
+                >
+                  <div className="p-2 rounded-full bg-muted/50">
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-lg">{feature.title}</h4>
+                    <p className="text-muted-foreground">{feature.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Add a background image to make the tutorial more visual */}
+            <div className="relative w-full h-48 my-8 rounded-lg overflow-hidden">
+              <Image 
+                src={userType === 'freelancer' ? '/freelancer-modern-office.png' : '/project-dashboard-cyan.png'}
+                alt="Dashboard Preview"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/70 to-primary/20 flex items-center justify-center">
+                <p className="text-white text-xl font-medium max-w-md text-center px-4">
+                  {userType === 'freelancer' ? 
+                    "Your dashboard is customized to help you find the best opportunities." :
+                    "Your dashboard is designed to help you find the perfect talent for your projects."}
+                </p>
+              </div>
+            </div>
+            
+            <DialogFooter>
+              <Button 
+                onClick={handleNext}
+                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+              >
+                Complete Your Profile
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </DialogFooter>
+          </>
+        )
+      </DialogContent>
+    </Dialog>
+  )
+}
