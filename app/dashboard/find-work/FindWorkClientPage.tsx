@@ -2,9 +2,9 @@
 
 import { DashboardHeader } from "@/components/features/dashboard/dashboard-header"
 import { DashboardShell } from "@/components/features/dashboard/dashboard-shell"
-import { JobSearch } from "@/components/jobs/job-search"
-import { JobFilters } from "@/components/jobs/job-filters"
-import { JobList } from "@/components/jobs/job-list"
+import { JobSearch } from "@/components/features/jobs/job-search"
+import { JobFilters } from "@/components/features/jobs/job-filters"
+import { JobList } from "@/components/features/jobs/job-list"
 import { ErrorBoundary } from "react-error-boundary"
 
 interface ErrorFallbackProps {

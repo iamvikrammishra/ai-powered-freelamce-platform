@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Progress } from "@/components/ui/progress"
-import { AvatarUpload } from "@/components/avatar-upload"
+import { AvatarUpload } from "@/components/features/profile/avatar-upload"
 import { supabase } from "@/lib/supabase/client"
 import { toast } from "@/components/ui/use-toast"
 import { Check, X, Plus, Trash, Upload, Edit3, Star, Briefcase, GraduationCap, Award, Clock } from "lucide-react"
