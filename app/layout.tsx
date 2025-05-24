@@ -2,9 +2,10 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/toaster"
-import { Navbar } from "@/components/navbar"
+import { ThemeProvider } from "@/components/common/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
+import { ConditionalNavbar } from "@/components/features/navigation/conditional-navbar"
+import { AuthErrorHandler } from "@/components/features/auth/auth-error-handler"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -23,8 +24,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Navbar />
-          {children}
+          {/* Auth error handler to manage auth state globally */}
+          <AuthErrorHandler />
+          <ConditionalNavbar>
+            {children}
+          </ConditionalNavbar>
           <Toaster />
         </ThemeProvider>
       </body>

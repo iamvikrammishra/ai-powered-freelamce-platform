@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast"
 import { Eye, EyeOff, Mail, Lock, Phone, Github } from "lucide-react"
 import { supabase } from "@/lib/supabase/client"
-import { WelcomeModal } from "@/components/welcome-modal"
+import { WelcomeModal } from "@/components/features/auth/welcome-modal"
 
 export default function LoginPage() {
   const router = useRouter()
