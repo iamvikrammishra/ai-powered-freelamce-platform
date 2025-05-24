@@ -3,8 +3,8 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft, CheckCircle, Download, Share2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/landing/footer"
+import { Navbar } from "@/components/features/navigation/navbar"
+import { Footer } from "@/components/features/landing/footer"
 
 export const metadata: Metadata = {
   title: "Case Study | GigIndia",
